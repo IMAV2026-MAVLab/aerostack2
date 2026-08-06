@@ -4,7 +4,8 @@ State estimator plugin for sources that already give an absolute, essentially ex
 a simulator's ground truth, or a motion capture system.
 
 There is no filtering and no fusion here. The pose is taken at face value and turned into
-the TF tree.
+the TF tree. If your source is noisy, slow or delayed, use
+[`simple_ekf`](../simple_ekf/README.md) instead.
 
 ## How it works
 
@@ -122,7 +123,9 @@ ground_truth:
 - **No orientation filtering.** `twist_smooth_filter_cte` filters only the differentiated
   linear velocity. Orientation is passed through raw. This matters for mocap rigs migrating
   from the old `mocap_pose` plugin, which had an `orientation_smooth_filter_cte`: a noisy
-  mocap yaw that used to be smoothed now passes through unfiltered.
+  mocap yaw that used to be smoothed now passes through unfiltered. Feeding the mocap topic
+  to [`simple_ekf`](../simple_ekf/README.md) instead gives you smoothing as a side effect
+  of the filter.
 - **Angular velocity is always zero** in the differentiated twist. Only linear velocity is
   computed. A dedicated twist topic carries whatever the source provides.
 - **Repeated poses are dropped.** Two consecutive poses within 1 µm of each other are
