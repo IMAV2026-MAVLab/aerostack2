@@ -66,7 +66,7 @@ def simulation(world_name: str, gui_config: str = '', headless: bool = False,
     if run_on_start:
         gz_args.append('-r')
     if headless:
-        gz_args.append('-s')
+        gz_args.append('-s --headless-rendering')
 
     if world_name.split('.')[-1] == 'sdf':
         gz_args.append(world_name)
